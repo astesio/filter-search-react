@@ -1,23 +1,36 @@
-import logo from './logo.svg';
+import { useMemo } from 'react';
+import { useState } from 'react';
 import './App.css';
 
+const fruits = [
+  'laranja',
+  'banana', 
+  'maçã',
+  'morango',
+  'pera',
+  'ácerola',
+  'kiwi',
+  'uva',
+]
+
 function App() {
+  const [search, setSearch] = useState('');
+  const filterFruits = useMemo(() => {
+    const lowerSerach = search.toLowerCase();
+    return fruits
+      .filter(fruit => fruit
+        .toLocaleLowerCase()
+        .includes(lowerSerach)
+      );
+  }, [search]) 
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello Bravacoders</h1>
+      <input type="text" value={search} onChange={(event) => setSearch(event.target.value)} />
+      <ul>
+        {filterFruits.map((fruit) => <li key={fruit}>{fruit}</li>)}
+      </ul>
     </div>
   );
 }
